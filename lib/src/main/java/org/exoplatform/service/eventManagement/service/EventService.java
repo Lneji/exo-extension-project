@@ -16,10 +16,9 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.exoplatform.service.taskManagement.service;
+package org.exoplatform.service.eventManagement.service;
 
-import org.exoplatform.service.taskManagement.entities.Project;
-import org.exoplatform.service.taskManagement.entities.Task;
+import org.exoplatform.service.eventManagement.entities.Event;
 import org.exoplatform.services.jcr.RepositoryService;
 import org.exoplatform.services.jcr.core.ManageableRepository;
 import org.exoplatform.services.jcr.ext.common.SessionProvider;
@@ -39,144 +38,36 @@ import java.util.List;
  * @author <a href="mailto:foo@bar.org">Foo Bar</a>
  * @version $Id: Body Header.java 34027 2009-07-15 23:26:43Z aheritier $
  */
-public class ProjectService
+public class EventService
 {
-   private String taskRootNode = "TaskManagement";
+   private String eventRootNode = "EventManagement";
    private RepositoryService repositoryService;
-   private static final Log LOG = ExoLogger.getLogger("taskManagement.service.ProjectService");
+   private static final Log LOG = ExoLogger.getLogger("eventManagement.service.EventService");
 
-   public ProjectService(RepositoryService repositoryService)
+   public EventService(RepositoryService repositoryService)
    {
       this.repositoryService = repositoryService;
    }
 
 
-   public Project addProject(String pName, String teamLead)
+   public Event addEvent(String pName, String desc)
    {
-      Project pr = null;
-      Node root = null;
-      try
-      {
-         root = getTaskRootNode();
-      }
-      catch (RepositoryException e)
-      {
-         LOG.error(e);
-      }
-      try
-      {
-         long newId = System.currentTimeMillis();
-         Node node = root.addNode("Project" + newId, "exo:project");
-         node.setProperty("idProject", newId);
-         node.setProperty("teamLead", teamLead);
-         node.setProperty("nameProject", pName);
-         root.save();
-         pr = new Project((int)newId, pName, teamLead);
-      }
-      catch (Exception e)
-      {
-         LOG.error(e);
-      }
-      return pr;
+      return new Event();
    }
 
-   public List<Project> getAllProject()
+  /* public List<Event> getAllEvent()
    {
-      List<Project> list = new ArrayList<Project>();
-      Node root = null;
-      try
-      {
-         root = getTaskRootNode();
-      }
-      catch (RepositoryException e)
-      {
-         e.printStackTrace();
-      }
-      String statement = null;
-      try
-      {
-         statement = "SELECT * FROM  exo:project WHERE jcr:path LIKE '" + root.getPath() + "/%'";
-         Query query = root.getSession().getWorkspace().getQueryManager().createQuery(statement, Query.SQL);
-         for (NodeIterator iter = query.execute().getNodes(); iter.hasNext(); )
-         {
-            Node n = iter.nextNode();
-            long id = n.hasProperty("idProject")? n.getProperty("idProject").getLong():0;
-            String name = n.hasProperty("nameProject")?n.getProperty("nameProject").getString():"";
-            String lead = n.hasProperty("teamLead")? n.getProperty("teamLead").getString():"";
-            Project pr = new Project(id, name, lead);
-            list.add(pr);
-         }
-      }
-      catch (RepositoryException e)
-      {
-         LOG.error(e);
-      }
-
-      return list;
-   }
-
-   public List<Task> getTasks(long projectId)
-   {
-
-      List<Task> list = new ArrayList<Task>();
-      Node pNode = getProjectNodeById(projectId);
-      try
-      {
-         for (NodeIterator iter = pNode.getNode("tasksList").getNodes(); iter.hasNext(); )
-         {
-            Task task = new Task();
-            Node n = iter.nextNode();
-            if(pNode.hasProperty("idProject"))task.setProjectId(pNode.getProperty("idProject").getLong());
-            if(n.hasProperty("idTask"))task.setId(n.getProperty("idTask").getLong());
-            if(n.hasProperty("description"))task.setDescription(n.getProperty("description").getString());
-            if(n.hasProperty("nameTask"))task.setName(n.getProperty("nameTask").getString());
-            //task.setDueDate(n.getProperty("idTask").getDate());
-            if(n.hasProperty("affected"))task.setAffected(n.getProperty("affected").getString());
-            list.add(task);
-         }
-      }
-      catch (RepositoryException e)
-      {
-         LOG.error(e);
-      }
-      return list;
 
    }
+   */
 
-   public Node getProjectByName(String projectName) throws RepositoryException
+
+   public boolean removeEvent(int id)
    {
-
-      Node root = getTaskRootNode();
-      try
-      {
-         Node node = root.getNode(projectName);
-         return node;
-      }
-      catch (Exception e)
-      {
-         LOG.error(e);
-      }
-      return null;
-   }
-
-   public boolean removeProject(int id)
-   {
-      try
-      {
-         Node pRoot = getTaskRootNode();
-         Node pNode = getProjectNodeById(id);
-         pNode.remove();
-         pRoot.save();
-      }
-      catch (Exception e)
-      {
-         LOG.error(e);
-         return false;
-      }
       return true;
    }
 
-   protected Node getTaskRootNode() throws RepositoryException
+   protected Node getEventRootNode() throws RepositoryException
    {
       SessionProvider sessionProvider = null;
       Node node = null;
@@ -186,14 +77,14 @@ public class ProjectService
          ManageableRepository currentRepo = repositoryService.getCurrentRepository();
          Session session = sessionProvider.getSession(currentRepo.getConfiguration().getDefaultWorkspaceName(), currentRepo);
          Node rootNode = session.getRootNode();
-         if (!rootNode.hasNode(taskRootNode))
+         if (!rootNode.hasNode(eventRootNode))
          {
-            node = rootNode.addNode(taskRootNode);
+            node = rootNode.addNode(eventRootNode);
             rootNode.save();
          }
          else
          {
-            node = rootNode.getNode(taskRootNode);
+            node = rootNode.getNode(eventRootNode);
          }
 
       }
@@ -204,14 +95,14 @@ public class ProjectService
       return node;
    }
 
-   public Node getProjectNodeById(long id)
+   public Node getEventNodeById(long id)
    {
       Node pRoot = null;
       try
       {
-         pRoot = getTaskRootNode();
-         String statement = "SELECT * FROM exo:project WHERE jcr:path LIKE '" +
-            pRoot.getPath() + "/%' AND idProject='" + id + "'";
+         pRoot = getEventRootNode();
+         String statement = "SELECT * FROM exo:event WHERE jcr:path LIKE '" +
+            pRoot.getPath() + "/%' AND idEvent='" + id + "'";
 
          Query query = pRoot.getSession().getWorkspace().getQueryManager().createQuery(statement, Query.SQL);
          for (NodeIterator iter = query.execute().getNodes(); iter.hasNext(); )

@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.exoplatform.archetype</groupId>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <artifactId>create-site-extension</artifactId>
+  <name>Create Site Extension Archetype</name>
+  <packaging>pom</packaging>
+  <description>Create Site Extension Archetype</description>
+  <properties>
+    <org.exoplatform.platform.version>4.3.0-M3</org.exoplatform.platform.version>
+    <platform.version>4.3.0-M3</platform.version>
+    <hibernate.version>4.1.12.Final</hibernate.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.exoplatform.platform</groupId>
+        <artifactId>platform</artifactId>
+        <version>${org.exoplatform.platform.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <modules>
+        <module>config</module>
+        <module>war</module>
+    <module>lib</module>
+
+  </modules>
+</project>

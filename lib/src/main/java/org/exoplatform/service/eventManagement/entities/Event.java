@@ -14,10 +14,9 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.service.taskManagement.entities;
+package org.exoplatform.service.eventManagement.entities;
 
 
-import com.google.inject.internal.util.$Strings;
 
 /**
  * Created by The eXo Platform SAS
@@ -25,35 +24,42 @@ import com.google.inject.internal.util.$Strings;
  *          exo@exoplatform.com
  * Jun 26, 2014  
  */
-public class Project {
+public class Event {
 
-  private long idProject;
-  private String nameProject;
-  private String teamLead;
+  private long idEvent;
+  private String nameEvent;
+  private String description;
 
-   public Project(long idProject,String nameProject, String teamLead )
-   {
-      this.idProject = idProject;
-      this.nameProject=nameProject;
-      this.teamLead=teamLead;
-   }
+    public Event(long idEvent, String nameEvent, String description) {
+        this.idEvent = idEvent;
+        this.nameEvent = nameEvent;
+        this.description = description;
+    }
 
+    public Event() {
+    }
 
-   public long getId() {
-    return idProject;
-  }
-  public void setId(long idProject) {
-    this.idProject = idProject;
-  }
-  public String getName() {
-    return nameProject;
-  }
-  public void setName(String nameProject) {
-    this.nameProject = nameProject;
-  }
-  public String getLead() { return teamLead;}
-  public void setLead(String lead) {
-    this.teamLead = lead;
-  }
+    public String getNameEvent() {
+        return nameEvent;
+    }
 
+    public void setNameEvent(String nameEvent) {
+        this.nameEvent = nameEvent;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public long getIdEvent() {
+        return idEvent;
+    }
+
+    public void setIdEvent(long idEvent) {
+        this.idEvent = idEvent;
+    }
 }

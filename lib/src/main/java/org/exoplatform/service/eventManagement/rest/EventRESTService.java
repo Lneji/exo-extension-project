@@ -16,11 +16,10 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.exoplatform.service.taskManagement.rest;
+package org.exoplatform.service.eventManagement.rest;
 
 import org.exoplatform.commons.utils.ListAccess;
-import org.exoplatform.service.taskManagement.entities.Project;
-import org.exoplatform.service.taskManagement.service.ProjectService;
+import org.exoplatform.service.eventManagement.service.EventService;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.log.Log;
 import org.exoplatform.services.organization.OrganizationService;
@@ -75,92 +74,39 @@ import org.json.JSONObject;
  *          exo@exoplatform.com
  * Jun 26, 2014
  */
-@Path("/taskmanagement/project")
-public class ProjectRESTService implements ResourceContainer
+@Path("/eventmanagement/event")
+public class EventRESTService implements ResourceContainer
 {
-   private ProjectService projectService;
+   private EventService eventService;
    private OrganizationService organizationService;
-   private static final Log LOG = ExoLogger.getLogger("taskManagement.service.ProjectRESTService");
+   private static final Log LOG = ExoLogger.getLogger("eventManagement.service.EventRESTService");
 
-   public ProjectRESTService(OrganizationService organizationService, ProjectService projectService)
+   public EventRESTService(OrganizationService organizationService, EventService eventService)
    {
 
       this.organizationService = organizationService;
-      this.projectService = projectService;
+      this.eventService = eventService;
    }
 
-   @GET
-   @Path("/addproject")
+/*   @GET
+   @Path("/addEvent")
    @Produces(MediaType.TEXT_HTML)
    @RolesAllowed("users")
-   public Response createProject(@Context SecurityContext sc,
-                                 @Context UriInfo uriInfo,@QueryParam("name") String name, @QueryParam("lead") String lead)
+   public Response createEvent(@Context SecurityContext sc,
+                                 @Context UriInfo uriInfo,@QueryParam("name") String name, @QueryParam("desc") String desc)
    {
-      Project proj = projectService.addProject(name, lead);
-      return Response.ok(proj.toString(),MediaType.APPLICATION_JSON).build();
-   }
 
-   @GET
-   @Path("/getalluser")
+   }
+*/
+
+  /* @GET
+   @Path("/getallevents")
    @Produces("application/json")
-   @RolesAllowed("users")
-   public Response getUser()
-   {
-      JSONArray jsonArray = new JSONArray();
-      JSONObject jsonGlobal = new JSONObject();
-      try
-      {
-         ListAccess<User> listUsers = organizationService.getUserHandler().findAllUsers();
-         for (User user : listUsers.load(0, listUsers.getSize()))
-         {
-            System.out.println(user.getFullName());
-            JSONObject json = new JSONObject();
-            json.put("username", user.getFullName());
-            jsonArray.put(json);
-         }
-         jsonGlobal.put("totalNbUsers", listUsers.getSize());
-         jsonGlobal.put("projects", jsonArray);
-
-      }
-      catch (Exception e)
-      {
-         LOG.error(e);
-      }
-      return Response.ok(jsonGlobal.toString(), MediaType.APPLICATION_JSON).build();
-   }
-
-
-   @GET
-   @Path("/getallprojects")
-   @Produces("application/json")
-   @RolesAllowed("users")
-   public Response getAllProjects()
+   public Response getAllEvents()
    {
 
-      JSONArray jsonArray = new JSONArray();
-      JSONObject jsonGlobal = new JSONObject();
-
-      try
-      {
-         for (Project project : projectService.getAllProject())
-         {
-            JSONObject json = new JSONObject();
-            json.put("projectId", project.getId());
-            json.put("nameProject", project.getName());
-            json.put("teamLead", project.getLead());
-            jsonArray.put(json);
-         }
-         jsonGlobal.put("totalNbProjects", projectService.getAllProject().size());
-         jsonGlobal.put("projects", jsonArray);
-      }
-      catch (JSONException e)
-      {
-         LOG.error(e);
-      }
-
-      return Response.ok(jsonGlobal.toString(), MediaType.APPLICATION_JSON).build();
-
    }
+   */
 
 
 }

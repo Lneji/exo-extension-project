@@ -25,24 +25,15 @@
    xmlns="http://www.exoplatform.org/xml/ns/kernel_1_2.xsd">
 
     <component>
-    <key>org.exoplatform.service.taskManagement.rest.ProjectRESTService</key>
-    <type>org.exoplatform.service.taskManagement.rest.ProjectRESTService</type>
+    <key>org.exoplatform.service.eventManagement.rest.EventRESTService</key>
+    <type>org.exoplatform.service.eventManagement.rest.EventRESTService</type>
   </component>
-
-   <component>
-    <key>org.exoplatform.service.taskManagement.rest.TaskRESTService</key>
-    <type>org.exoplatform.service.taskManagement.rest.TaskRESTService</type>
-  </component>
-
 
   <component>
-    <key>org.exoplatform.service.taskManagement.service.ProjectService</key>
-    <type>org.exoplatform.service.taskManagement.service.ProjectService</type>
+    <key>org.exoplatform.service.eventManagement.service.EventService</key>
+    <type>org.exoplatform.service.eventManagement.service.EventService</type>
   </component>
-    <component>
-        <key>org.exoplatform.service.taskManagement.service.TaskService</key>
-        <type>org.exoplatform.service.taskManagement.service.TaskService</type>
-    </component>
+
 
   <external-component-plugins>
     <target-component>org.exoplatform.services.jcr.RepositoryService</target-component>
